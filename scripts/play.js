@@ -26,6 +26,6 @@ function playSequence(prmsList) {
             console.log(`Playing tone Nr. ${a}`);
             playTone(prmsList[a]);
         }, dur);
-        dur += prmsList[a].duration * 1000;
+        dur += prmsList[a].duration * 1000 + 150;
     }
 }
