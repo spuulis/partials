@@ -2,13 +2,26 @@ class BlindTest {
     static reset(N, delta) {
         this.key = new Array(N);
         this.note = new Array(N);
+        this.delta = delta;
         for(let i = 0; i < N; i++) {
-            this.key[i] = Math.floor(Math.random() * 3) * delta - delta;
+            this.key[i] = Math.floor(Math.random() * 3) * this.delta - this.delta;
             this.note[i] = String.fromCharCode(65 + Math.floor(Math.random() * 7));
         }
         this.restart();
         this.N = N;
         this.players = [];
+    }
+
+    static get_n() {
+        return this.n;
+    }
+
+    static getScore() {
+        return this.score;
+    }
+
+    static getDelta() {
+        
     }
 
     static restart() {
