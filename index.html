@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <canvas id="graph" width="800" height="700"></canvas>
+
+    <title>Partials</title>
 
     <script src="scripts/graph.js"></script>
     <script src="scripts/instruments.js"></script>
@@ -15,5 +13,46 @@
     <script src="scripts/play.js"></script>
     <script src="scripts/tuner.js"></script>
     <script src="scripts/blindTest.js"></script>
+    <script src="tabs/tabs.js"></script>
+
+    <link rel="stylesheet" href="style/style.css">
+</head>
+<body onload="onLoad()">
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'Visual')">Visual</button>
+        <button class="tablinks" onclick="openTab(event, 'DifTest')">DifTest</button>
+    </div>
+    
+    <div id="Visual" class="tabcontent">
+        <h1>Visual</h1>
+        <canvas id="graph" width="800" height="700"></canvas>
+    </div>
+    
+    <div id="DifTest" class="tabcontent">
+        <h3 id="scoreBoard">Score: N/A</h3>
+        <table>
+            <tr>
+                <th><button onclick="BlindTest.guess(-1)">-</button></th>
+                <th><button onclick="BlindTest.guess(0)">0</button></th>
+                <th><button onclick="BlindTest.guess(1)">+</button></th>
+            </tr>
+        </table>
+        <table>    
+            <tr>
+                <th><button onclick="BlindTest.next()">NEXT</button></th>
+                <th><button onclick="BlindTest.restart()">RESTART</button></th>
+                <th><button onclick="BlindTest.reset(100, 1)">RESET</button></th>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <th><canvas width="300" height="150" id="graphAll"></canvas></th>
+                <th><canvas width="300" height="150" id="graphAbs"></canvas></th>
+                <th><canvas width="300" height="150" id="graphDif"></canvas></th>
+            </tr>
+        </table>
+    </div>
+    
+
 </body>
 </html>

@@ -1,5 +1,9 @@
-var c = document.getElementById("graph");
-var ctx = c.getContext("2d");
+var c, ctx;
+
+function onLoad() {
+    c = document.getElementById("graph");
+    ctx = c.getContext("2d");
+}
 
 function drawTone(tone) {
     ctx.clearRect(0, 0, 800, 700);
