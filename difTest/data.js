@@ -1,7 +1,20 @@
 var cGrAll, cGrAbs, cGrDif;
 var data;
 
-function nDistrib(distance, sigma = 0.2, mu = 0) {
+function saveData(id) {
+    localStorage.setItem(id, JSON.stringify(data));
+}
+
+function loadData(id) {
+    data = JSON.parse(localStorage.getItem(id));
+    showData(document.getElementById("graphAll"), data);
+}
+
+function deleteData(id) {
+    localStorage.removeItem(id);
+}
+
+function nDistrib(distance, sigma = 0.12, mu = 0) {
     return (1/(sigma*Math.pow(2*Math.PI, 0.5)))*Math.pow(Math.E, -0.5 * Math.pow((distance-mu)/sigma, 2));
 }
 
