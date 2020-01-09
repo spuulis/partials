@@ -81,3 +81,24 @@ class BlindTest {
         return this.key;
     }
 }
+
+document.addEventListener('keyup', (e) => {
+    switch(e.which) {
+        case 48: // '0'
+        case 79: // 'o'
+            BlindTest.guess(0);
+            break;
+        case 32: // ' '
+            BlindTest.next();
+            break;
+        case 187: // '=' (the key with '+')
+        case 80: // 'p'
+            BlindTest.guess(1);
+            break;
+        case 189: // '-'
+        case 73: // 'i'
+            BlindTest.guess(-1);
+            break;
+        
+    }
+});
