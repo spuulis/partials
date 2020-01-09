@@ -1,15 +1,18 @@
 class BlindTest {
-    static reset(N, delta) {
-        this.key = new Array(N);
-        this.note = new Array(N);
+    static reset(delta = 1, step = 0.0128) {
+        this.N = Math.floor(delta / step);
+        this.n = 1;
+        this.key = new Array(this.N);
+        this.note = new Array(this.N);
         this.delta = delta;
-        for(let i = 0; i < N; i++) {
-            this.key[i] = Math.floor(Math.random() * 3) * this.delta - this.delta;
+        
+        for(let i = 0; i < this.N; i++) {
+            this.key[i] = Math.floor(Math.random() * 3) - 1;
             this.note[i] = String.fromCharCode(65 + Math.floor(Math.random() * 7));
         }
         this.restart();
-        this.N = N;
         this.players = [];
+        this.step = step;
     }
 
     static get_n() {
@@ -21,7 +24,7 @@ class BlindTest {
     }
 
     static getDelta() {
-        
+        return this.delta;
     }
 
     static restart() {
@@ -33,8 +36,12 @@ class BlindTest {
     static guess(g) {
         if((g === 0 && this.key[this.n] === 0) || (g === 1 && this.key[this.n] > 0) || (g === -1 && this.key[this.n] < 0)) {
             this.score++;
+            addToData(this.delta, 1);
+        } else {
+            addToData(this.delta, 0);
         }
-        document.getElementById("scoreBoard").innerHTML = `Score: ${this.score}/${this.n + 1}, ${Math.floor(this.score / (this.n + 1) * 100)}%\nCorrect answer: ${this.key[this.n]}`;
+        document.getElementById("scoreBoard").innerHTML = `Score: ${this.score}/${this.n + 1}, ${Math.floor(this.score / (this.n + 1) * 100)}%\nCorrect answer: ${this.key[this.n]}  (${Math.floor(this.delta * 1000) / 1000})`;
+        showData(document.getElementById("graphAll"), data);
     }
 
     static check(ans) {
@@ -58,9 +65,10 @@ class BlindTest {
         try {
             if(this.n < this.N - 1) {
                 this.n++;
-                playSequence([{"frequency": [Tuner.note("-1".concat(this.note[this.n], "0"))], "duration": 1, "instrument": harmonicTone},
-                              {"frequency": [Tuner.note("-1".concat(this.note[this.n],this.key[this.n].toString()))], "duration": 1, "instrument": harmonicTone}]);
-                              
+                this.delta -= this.step;
+                playSequence([{"frequency": [Tuner.note("-1".concat(this.note[this.n], "0"))], "duration": 0.7, "instrument": harmonicTone},
+                              {"frequency": [Tuner.note("-1".concat(this.note[this.n],(this.key[this.n] * this.delta).toString()))], "duration": 0.7, "instrument": harmonicTone}]);
+                  
             } else {
                 throw "End of test...";
             }

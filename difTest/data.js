@@ -1,4 +1,26 @@
 var cGrAll, cGrAbs, cGrDif;
+var data;
+
+function nDistrib(distance, sigma = 0.2, mu = 0) {
+    return (1/(sigma*Math.pow(2*Math.PI, 0.5)))*Math.pow(Math.E, -0.5 * Math.pow((distance-mu)/sigma, 2));
+}
+
+function clearData() {
+    data = new Array(110);
+    for(let i = 0; i < 110; i++) {
+        data[i] = [0.005, 0.01];
+    }
+}
+
+function addToData(comma, value) {
+    for(let i = 0; i < 110; i++) {
+        let a = nDistrib(i / 100 - comma);
+        data[i][0] += a * value;
+        data[i][1] += a;
+        console.log(a);
+    }
+    
+}
 
 function showData(canvas, data) {
     let ctx = canvas.getContext("2d");
@@ -20,7 +42,7 @@ function showData(canvas, data) {
     }
 
     ctx.strokeStyle = "#000000";
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(10, 10);
     ctx.lineTo(10, 140);
@@ -28,10 +50,17 @@ function showData(canvas, data) {
     ctx.stroke();
 
 
-    for(let i = 1; i < 20; i++) {
-        ctx.fillStyle = "#FF0000";
-        ctx.beginPath();
-        ctx.arc(10 + (i / 20) * 240, 140 - data[i][0] * 130, 5, 0, 2 * Math.PI);
-        ctx.fill();
+    for(let i = 1; i < 110; i++) {
+        if(Math.floor(BlindTest.getDelta() * 100) != i) {
+            ctx.fillStyle = "#FF0000";
+            ctx.beginPath();
+            ctx.arc(10 + (i / 110) * 240, 140 - (data[i][0] / data[i][1]) * 130, 2, 0, 2 * Math.PI);
+            ctx.fill();
+        }
     }
+    let i = Math.floor(BlindTest.getDelta() * 100);
+    ctx.fillStyle = "#0000FF";
+    ctx.beginPath();
+    ctx.arc(10 + (i / 110) * 240, 140 - (data[i][0] / data[i][1]) * 130, 5, 0, 2 * Math.PI);
+    ctx.fill();
 }
