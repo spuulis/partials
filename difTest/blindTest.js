@@ -27,6 +27,10 @@ class BlindTest {
         return this.delta;
     }
 
+    static getKey() {
+        return this.key[this.n];
+    }
+
     static restart() {
         this.n = -1;
         this.score = 0;
@@ -36,12 +40,13 @@ class BlindTest {
     static guess(g) {
         if((g === 0 && this.key[this.n] === 0) || (g === 1 && this.key[this.n] > 0) || (g === -1 && this.key[this.n] < 0)) {
             this.score++;
-            addToData(this.delta, 1);
+            addToData(this.delta, g);
         } else {
-            addToData(this.delta, 0);
+            addToData(this.delta, g);
         }
         document.getElementById("scoreBoard").innerHTML = `Score: ${this.score}/${this.n + 1}, ${Math.floor(this.score / (this.n + 1) * 100)}%\nCorrect answer: ${this.key[this.n]}  (${Math.floor(this.delta * 1000) / 1000})`;
-        showData(document.getElementById("graphAll"), data);
+        showData("graphAll", allData[0]);
+        showData("graphDif", allData[1]);
     }
 
     static check(ans) {
