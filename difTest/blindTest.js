@@ -1,4 +1,8 @@
 class BlindTest {
+    static onLoad() {
+        this.reset();
+    }
+
     static reset(delta = 1, step = 0.0128) {
         this.N = Math.floor(delta / step);
         this.n = 1;
@@ -13,6 +17,7 @@ class BlindTest {
         this.restart();
         this.players = [];
         this.step = step;
+        this.guessed = true;
     }
 
     static get_n() {
@@ -38,15 +43,18 @@ class BlindTest {
     }
 
     static guess(g) {
-        if((g === 0 && this.key[this.n] === 0) || (g === 1 && this.key[this.n] > 0) || (g === -1 && this.key[this.n] < 0)) {
-            this.score++;
-            addToData(this.delta, g);
-        } else {
-            addToData(this.delta, g);
+        if(!this.guessed) {
+            if((g === 0 && this.key[this.n] === 0) || (g === 1 && this.key[this.n] > 0) || (g === -1 && this.key[this.n] < 0)) {
+                this.score++;
+                addToData(this.delta, g);
+            } else {
+                addToData(this.delta, g);
+            }
+            document.getElementById("scoreBoard").innerHTML = `Score: ${this.score}/${this.n + 1}, ${Math.floor(this.score / (this.n + 1) * 100)}%\nCorrect answer: ${this.key[this.n]}  (${Math.floor(this.delta * 1000) / 1000})`;
+            showData("graphAll", allData[0]);
+            showData("graphDif", allData[1]);
+            this.guessed = true;
         }
-        document.getElementById("scoreBoard").innerHTML = `Score: ${this.score}/${this.n + 1}, ${Math.floor(this.score / (this.n + 1) * 100)}%\nCorrect answer: ${this.key[this.n]}  (${Math.floor(this.delta * 1000) / 1000})`;
-        showData("graphAll", allData[0]);
-        showData("graphDif", allData[1]);
     }
 
     static check(ans) {
@@ -73,7 +81,7 @@ class BlindTest {
                 this.delta -= this.step;
                 playSequence([{"frequency": [Tuner.note("-1".concat(this.note[this.n], "0"))], "duration": 0.7, "instrument": harmonicTone},
                               {"frequency": [Tuner.note("-1".concat(this.note[this.n],(this.key[this.n] * this.delta).toString()))], "duration": 0.7, "instrument": harmonicTone}]);
-                  
+                this.guessed = false;
             } else {
                 throw "End of test...";
             }
