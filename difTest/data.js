@@ -1,6 +1,10 @@
 var cGrAll, cGrAbs, cGrDif;
 var allData;
 
+function dataOnLoad() {
+    clearData();
+}
+
 function saveData(id) {
     localStorage.setItem(id, JSON.stringify(allData));
 }

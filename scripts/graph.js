@@ -1,10 +1,9 @@
 var c, ctx;
 
-function onLoad() {
+function graphOnLoad() {
     c = document.getElementById("graph");
     ctx = c.getContext("2d");
     drawAxis();
-    clearData();
 }
 
 function drawAxis() {
