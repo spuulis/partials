@@ -3,6 +3,8 @@ var allData;
 
 function dataOnLoad() {
     clearData();
+    showData("graphAll", allData[0]);
+    showData("graphDif", allData[1]);
 }
 
 function saveData(id) {
@@ -41,7 +43,7 @@ function addToData(comma, guess) {
     if((guess === 0 && BlindTest.getKey() === 0) || (guess === 1 && BlindTest.getKey() > 0) || (guess === -1 && BlindTest.getKey() < 0)) {
         value = 1;
     }
-    if(value === 1 && guess != 0) {
+    if(!(value === 1 && guess === 0)) {
         for(let i = 0; i < 110; i++) {
             let a = nDistrib(i / 100 - comma);
             allData[0][i][0] += a * value;
@@ -99,15 +101,17 @@ function showData(canvasName, data) {
 
     for(let i = 1; i < 110; i++) {
         if(Math.floor(BlindTest.getDelta() * 100) != i) {
-            
             ctx.beginPath();
             ctx.arc(10 + (i / 110) * 240, 140 - (data[i][0] / data[i][1]) * 130, 2, 0, 2 * Math.PI);
             ctx.fill();
         }
     }
     let i = Math.floor(BlindTest.getDelta() * 100);
-    ctx.fillStyle = "#0000FF";
-    ctx.beginPath();
-    ctx.arc(10 + (i / 110) * 240, 140 - (data[i][0] / data[i][1]) * 130, 5, 0, 2 * Math.PI);
-    ctx.fill();
+    if(i >= 0 && i < 100) {
+        ctx.fillStyle = "#0000FF";
+        ctx.beginPath();
+        ctx.arc(10 + (i / 110) * 240, 140 - (data[i][0] / data[i][1]) * 130, 5, 0, 2 * Math.PI);
+        ctx.fill();
+    }
+    
 }
