@@ -1,8 +1,4 @@
 class BlindTest {
-    static onLoad() {
-        this.reset();
-    }
-
     static reset(delta = 1, step = 0.0128) {
         this.N = Math.floor(delta / step);
         this.n = 1;

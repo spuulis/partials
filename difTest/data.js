@@ -33,6 +33,8 @@ function clearData() {
             allData[dType][i] = [0.005, 0.01];
         }
     }
+    showData("graphAll", allData[0]);
+    showData("graphDif", allData[1]);
 }
 
 function addToData(comma, guess) {
