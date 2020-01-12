@@ -65,6 +65,22 @@ function addToData(comma, guess) {
         allData[1][i][0] += a * value;
         allData[1][i][1] += a;
     }
+
+
+    // Detected specific changes
+    for(let d = -1; d < 2; d++) {
+        value = 0;
+        if(BlindTest.getKey() == d) {
+            if(guess == d) {
+                value = 1;
+            }
+            for(let i = 0; i < 110; i++) {
+                let a = nDistrib(i / 100 - comma);
+                allData[3 + d][i][0] += a * value;
+                allData[3 + d][i][1] += a;
+            }
+        }
+    }
 }
 
 function showData(canvasName, data) {
