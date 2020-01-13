@@ -1,7 +1,23 @@
 var actx = new AudioContext();
 var sampleRate = actx.sampleRate;
 
+function defaultize(prms) {
+    if(prms.frequency ==  undefined) {
+        prms.frequency = [];
+    }
+    if(prms.duration ==  undefined) {
+        prms.duration = 1;
+    }
+    if(prms.instrument ==  undefined) {
+        prms.instrument = harmonicTone;
+    }
+
+    return prms;
+}
+
 function playTone(prms) {
+    prms = defaultize(prms);
+
     var duration = prms.duration * sampleRate;
     var numChannels = 1;
     var buffer  = actx.createBuffer(numChannels, duration, sampleRate);
